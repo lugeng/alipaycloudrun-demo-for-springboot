@@ -18,9 +18,6 @@ FROM alpine:3.13
 # 设置应用工作目录
 WORKDIR /app
 
-# 将构建产物拷贝到运行时的工作目录中
-COPY --from=build /app/**/*.jar ./
-
 # 安装基础命令
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
     apk add --update --no-cache ca-certificates curl openjdk8-jre-base tzdata && \
@@ -29,5 +26,9 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 # 设置时区
 RUN ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo Asia/Shanghai > /etc/timezone
+    
+    
+# 将构建产物拷贝到运行时的工作目录中
+COPY --from=build /app/**/*.jar ./
 
 CMD ["java", "-jar", "antcloud-0.0.1-SNAPSHOT.jar"]
