@@ -10,10 +10,11 @@ COPY . .
 # 编译项目
 RUN mvn -B -e -U -s settings.xml clean package
 
-# 采用java或者alpine官方镜像做为运行时镜像
-FROM adoptopenjdk/openjdk8:alpine
+# 采用java或者alpine/debian官方镜像做为运行时镜像
+FROM openjdk:8-bullseye
 
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+# RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list && \
+#  apt update && apt install -y curl
 
 # 设置应用工作目录
 WORKDIR /app
