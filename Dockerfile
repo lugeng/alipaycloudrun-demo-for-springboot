@@ -13,6 +13,8 @@ RUN mvn -B -e -U -s settings.xml clean package
 # 采用java或者alpine官方镜像做为运行时镜像
 FROM adoptopenjdk/openjdk8:alpine
 
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+
 # 设置应用工作目录
 WORKDIR /app
 
